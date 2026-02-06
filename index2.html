@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stopwatch</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #6ee763, #0e90db);
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        text-align: center;
+        width: 100%;
+        max-width: 450px;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #000000;
+        margin-bottom: 25px;
+        letter-spacing: 2px;
+    }
+
+    .stopwatch {
+        background: #fff;
+        padding: 40px 30px;
+        border-radius: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    .time {
+        font-size: 3rem;
+        margin-bottom: 30px;
+        font-weight: bold;
+        color: #111;
+    }
+
+    .buttons {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+    }
+
+    button {
+        flex: 1;
+        padding: 15px;
+        font-size: 1.1rem;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        color: white;
+        transition: 0.2s ease;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    .start {
+        background: #28a745;
+    }
+
+    .stop {
+        background: #dc3545;
+    }
+
+    .reset {
+        background: #007bff;
+    }
+
+    @media (max-width: 480px) {
+        h1 {
+            font-size: 2rem;
+        }
+
+        .time {
+            font-size: 2.4rem;
+        }
+
+        button {
+            font-size: 1rem;
+            padding: 12px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>STOPWATCH</h1>
+
+    <div class="stopwatch">
+        <div class="time" id="display">00:00:00</div>
+
+        <div class="buttons">
+            <button class="start" onclick="start()">Start</button>
+            <button class="stop" onclick="stop()">Stop</button>
+            <button class="reset" onclick="reset()">Reset</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let timer;
+let seconds = 0;
+let minutes = 0;
+let hours = 0;
+let running = false;
+
+function start() {
+    if (!running) {
+        running = true;
+        timer = setInterval(updateTime, 1000);
+    }
+}
+
+function stop() {
+    running = false;
+    clearInterval(timer);
+}
+
+function reset() {
+    stop();
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+    display();
+}
+
+function updateTime() {
+    seconds++;
+
+    if (seconds === 60) {
+        seconds = 0;
+        minutes++;
+    }
+
+    if (minutes === 60) {
+        minutes = 0;
+        hours++;
+    }
+
+    display();
+}
+
+function display() {
+    document.getElementById("display").innerText =
+        format(hours) + ":" + format(minutes) + ":" + format(seconds);
+}
+
+function format(time) {
+    return time < 10 ? "0" + time : time;
+}
+</script>
+
+</body>
+</html>
